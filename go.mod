@@ -1,11 +1,10 @@
-module github.com/lastlegion/real_time_db
+module github.com/lastlegion/rtdb
 
-go 1.15
+go 1.16
 
 require (
-	github.com/boltdb/bolt v1.3.1 // indirect
-	github.com/go-redis/redis v6.15.9+incompatible // indirect
-	github.com/go-redis/redis/v8 v8.7.1 // indirect
-	github.com/google/uuid v1.2.0 // indirect
-	github.com/prologic/bitcask v0.3.10 // indirect
+	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/onsi/ginkgo v1.15.2 // indirect
+	github.com/onsi/gomega v1.11.0 // indirect
+	github.com/prologic/bitcask v0.3.10
 )
