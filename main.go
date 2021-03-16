@@ -12,11 +12,12 @@ var redisAddr = flag.String("redis_addr", "localhost:6379", "Redis address")
 var redisDB = flag.Int("redis_db", 0, "Redis database")
 var redisPassword = flag.String("redis_password", "", "Redis password")
 var redisChannel = flag.String("redis_broadcast_channel", "kv_broadcast", "Redis channel where events are published")
+var bufferSize = flag.Int64("buffer_size", 1000, "Buffer size for holding messages while cold starting")
 var clientId = flag.String("client_id", "client1", "ID for the client, make sure to provide unique ID for each client")
 
 func main() {
 	flag.Parse()
-	s := NewStore(*redisAddr, *redisPassword, *redisDB, *redisChannel, *clientId)
+	s := NewStore(*redisAddr, *redisPassword, *redisDB, *redisChannel, *clientId, *bufferSize)
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Real time db")

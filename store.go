@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	"strings"
 
@@ -14,10 +13,10 @@ type Store struct {
 	redisClient redis.Client
 	buffer      chan string
 	initDone    chan bool
-	ctx         context.Context
+	bufferSize  int64
 }
 
-func NewStore(redisAddr string, redisPassword string, redisDB int, redisChannel string, clientId string) *Store {
+func NewStore(redisAddr string, redisPassword string, redisDB int, redisChannel string, clientId string, bufferSize int64) *Store {
 
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     redisAddr,
@@ -36,7 +35,7 @@ func NewStore(redisAddr string, redisPassword string, redisDB int, redisChannel 
 		redisClient: *redisClient,
 		buffer:      bufferChan,
 		initDone:    make(chan bool),
-		ctx:         context.Background(),
+		bufferSize:  bufferSize,
 	}
 	go store.loadData()
 	go store.subscribe()
@@ -48,7 +47,7 @@ func (k Store) loadData() {
 	for {
 		var keys []string
 		var err error
-		keys, cursor, err = k.redisClient.Scan(cursor, "*", 1).Result()
+		keys, cursor, err = k.redisClient.Scan(cursor, "*", k.bufferSize).Result()
 		if err != nil {
 			log.Println("Failed to retrieve data ", err.Error())
 		}
