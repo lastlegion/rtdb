@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/go-redis/redis"
-	"github.com/prologic/bitcask"
+	"git.mills.io/prologic/bitcask"
 )
 
 type Store struct {
